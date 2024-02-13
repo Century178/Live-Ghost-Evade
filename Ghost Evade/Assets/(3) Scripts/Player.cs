@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 _killZone = new Vector2(10, 6);
 
     private bool _extraHit;
-    private float _extraHitTimer;
 
     private SpriteRenderer _sr;
     [SerializeField] private Color _oneHit, _twoHits;
@@ -21,8 +20,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        _extraHitTimer -= Time.deltaTime;
-
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Camera.main refers to the camera with the "MainCamera" tag.
 
         transform.position = mousePos;
@@ -36,12 +33,11 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle") && _extraHitTimer < 0)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
             if (_extraHit)
             {
                 _extraHit = false;
-                _extraHitTimer = 1;
                 _sr.color = _oneHit;
                 return;
             }

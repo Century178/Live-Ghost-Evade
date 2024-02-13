@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private Text _scoreText;
+    [SerializeField] private float _scoreRate = 5;
+    [SerializeField] private int _scoreValue = 50;
     private int _score;
 
     [HideInInspector] public bool IsDead; //When you want a variable public but don't need to change it, keep it hidden.
@@ -20,6 +22,8 @@ public class GameManager : MonoBehaviour
 
         IsDead = false;
         _score = 0;
+
+        InvokeRepeating(nameof(Increment), 0, 1f / _scoreRate);
     }
 
     private void Update()
@@ -30,11 +34,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ScoreUp()
+    private void Increment()
     {
         if (IsDead) return;
 
         _score++;
+        _scoreText.text = _score.ToString();
+    }
+
+    public void ScoreUp()
+    {
+        if (IsDead) return;
+
+        _score += _scoreValue;
         _scoreText.text = _score.ToString();
     }
 
