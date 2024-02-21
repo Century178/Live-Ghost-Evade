@@ -8,14 +8,17 @@ public class Obstacle : MonoBehaviour
 
     private Vector2 _dir;
 
+    private Rigidbody2D _rb2D;
+
     private void Awake()
     {
         Destroy(gameObject, 25f / _speed);
+        _rb2D = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.Translate(_speed * Time.deltaTime * _dir);
+        _rb2D.velocity = _dir * _speed;
     }
 
     public void SetDirection(Vector2 dir)
